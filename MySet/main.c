@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include "MySet.h"
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
-int main(int argc, char *argv[]) {
+int main() {
 	
-	int opt, val, i;
+	int opt, val, i, res;
 	char setOpt;
 	String menu[10] = {"Add Value", "Delete Value", "Find Union", "Find Intersection", "Display", "Exit"};
 	DATA X, Y;
@@ -25,22 +23,42 @@ int main(int argc, char *argv[]) {
 		switch(opt) {
 			case 1:
 				system("cls");
-				printf("ADD VALUE\n");
-				printf("Select a Set (X/Y): ");
-				scanf(" %c", &setOpt);
+				
+				do {
+					printf("ADD VALUE\n");
+					printf("\nSelect a Set (X/Y): ");
+					scanf(" %c", &setOpt);
+					system("cls");
+				} while(setOpt != 'X' && setOpt != 'x' && setOpt != 'Y' && setOpt != 'y');
 				
 				switch(setOpt) {
 					case 'X':
 					case 'x':
-						printf("Enter a value: ");
-						scanf("%d", &val);
-						addVal(&X, val);
+						if(X.count < MAX-1) {
+							printf("ADD VALUE (X)\n");
+							printf("Maximum of five values.\n\nEnter a value (1-9): ");
+							for(i=0; i<MAX; i++) {
+								scanf("%d", &val);
+								addVal(&X, val);
+							}
+						}
+						else {
+							printf("Array is full.\n\n");
+						}
 						break;
 					case 'Y':
 					case 'y':
-						printf("Enter a value: ");
-						scanf("%d", &val);
-						addVal(&Y, val);
+						if(Y.count < MAX-1) {
+							printf("ADD VALUE (Y)\n");
+							printf("Maximum of five values.\n\nEnter a value (1-9): ");
+							for(i=0; i<MAX; i++) {
+								scanf("%d", &val);
+								addVal(&Y, val);
+							}
+						}
+						else {
+							printf("Array is full.\n\n");
+						}
 						break;
 				}
 
@@ -49,23 +67,35 @@ int main(int argc, char *argv[]) {
 				break;
 			case 2:
 				system("cls");
-				printf("DELETE VALUE\n");
-				printf("Select a Set (X/Y): ");
-				scanf(" %c", &setOpt);
+				
+				do {
+					printf("DELETE VALUE\n");
+					printf("\nSelect a Set (X/Y): ");
+					scanf(" %c", &setOpt);
+					system("cls");
+				} while(setOpt != 'X' && setOpt != 'x' && setOpt != 'Y' && setOpt != 'y');
 				
 				switch(setOpt) {
 					case 'X':
 					case 'x':
-						printf("Enter an index: ");
+						printf("DELETE VALUE (X)\n");
+						printf("\nEnter an index: ");
 						scanf("%d", &val);
-						delVal(&X, val);
+						res = delVal(&X, val);
 						break;
 					case 'Y':
 					case 'y':
-						printf("Enter an index: ");
+						printf("DELETE VALUE (Y)\n");
+						printf("\nEnter an index: ");
 						scanf("%d", &val);
-						delVal(&Y, val);
+						res = delVal(&Y, val);
 						break;
+				}
+				if(res) {
+					printf("\nIndex %d is deleted.\n", val);
+				}
+				else {
+					printf("\nIndex %d has no value.\n", val);
 				}
 				
 				system("pause");
@@ -76,6 +106,7 @@ int main(int argc, char *argv[]) {
 				printf("FIND UNION\n");
 				printf("\nXuY: ");
 				findUnion(X,Y);
+				printf("\n");
 				
 				system("pause");
 				system("cls");
@@ -85,6 +116,7 @@ int main(int argc, char *argv[]) {
 				printf("FIND INTERSECTION\n");
 				printf("\nXnY: ");
 				findIntersection(X,Y);
+				printf("\n");
 				
 				system("pause");
 				system("cls");
@@ -93,17 +125,16 @@ int main(int argc, char *argv[]) {
 				system("cls");
 				printf("Set X: ");
 				display(X);
+				printf("\n");
 				printf("Set Y: ");
 				display(Y);
+				printf("\n");
 				
 				system("pause");
 				system("cls");
 				break;
 			case 6:
 				printf("\nYou have exited.\n");
-				
-				system("pause");
-				system("cls");
 				break;
 			default:
 				system("pause");
