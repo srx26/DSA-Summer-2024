@@ -14,16 +14,11 @@ void init(DATA *S) {
 
 void addVal(DATA *S, Data elem) {
 	
-	if(S->count != MAX) {
-		S->set[S->count] = elem;
-		S->count += 1;
-	}
-	else {
-		printf("\nArray is Full.\n");
-	}
+	S->set[S->count] = elem;
+	S->count += 1;
 }
 
-void delVal(DATA *S, Data elem) {
+int delVal(DATA *S, Data elem) {
 	
 	int i, check = 0;
 	
@@ -39,12 +34,7 @@ void delVal(DATA *S, Data elem) {
 			}
 		}
 	}
-	if(check) {
-		printf("\nIndex %d is deleted.\n", elem);
-	}
-	else {
-		printf("\nIndex %d has no value.\n", elem);
-	}
+	return check;
 }
 
 void findUnion(DATA X, DATA Y) {
@@ -53,27 +43,17 @@ void findUnion(DATA X, DATA Y) {
 	DATA N;
 	init(&N);
 	
-	for(i=0; i<MAX; i++) {
-		if(X.set[i] == -1) {
-			continue;
-		}
-		else {
-			elem = X.set[i];
-			addVal(&N, elem);
-		}
-	}
+	N = Y;
 	
 	for(i=0; i<MAX; i++) {
-		if(Y.set[i] == -1) {
-			continue;
-		}
 		for(j=0; j<MAX; j++) {
-			if(N.set[j] != Y.set[i]) {
-				elem = X.set[i];
-				addVal(&N, elem);
+			if(X.set[i] == N.set[j]) {
+				delVal(&N, j);
 			}
 		}
 	}
+	
+	display(X);
 	display(N);
 	
 	printf("\n");
@@ -109,6 +89,4 @@ void display(DATA S) {
 			printf("%d ", S.set[i]);
 		}
 	}
-	printf("\n");
 }
-
